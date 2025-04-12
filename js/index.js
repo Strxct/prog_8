@@ -161,10 +161,34 @@ function startCam() {
     }
 }
 
+function splitData(data, trainSize = 0.8) {
+    const trainCount = Math.floor(data.length * trainSize);
+    const trainData = data.slice(0, trainCount);
+    const testData = data.slice(trainCount);
+
+    return { trainData, testData };
+}
+
+function calculateAccuracy(testData) {
+    let correctPredictions = 0;
+
+    testData.forEach(data => {
+        const input = data.input;
+        const actualLabel = data.output;
+        const predictedLabel = knn.classify(input);
+
+        if (predictedLabel === actualLabel) {
+            correctPredictions++;
+        }
+    });
+
+    const accuracy = (correctPredictions / testData.length) * 100;
+    return accuracy;
+}
+
 function knnPredict(predictions) {
     let predictP = document.getElementById("predict")
 
-    // console.log(predictions)
 
     let array = []
 
@@ -250,14 +274,18 @@ function baddata(dataArray) {
 // Usage example with fetch
 function learn() {
     fetch('data.json')
-        .then(response => response.json())
-        .then(dataArray => {
-            baddata(dataArray);
-            learnDataFromJson(dataArray)
-        })
-        .catch(error => {
-            console.error('Error fetching or parsing JSON:', error);
-        });
+    .then(response => response.json())
+    .then(dataArray => {
+        const { trainData, testData } = splitData(dataArray);
+        learnDataFromJson(trainData);  // Train je model met de trainingsdata
+
+        // Bereken en log de accuracy van het model op de testdata
+        const accuracy = calculateAccuracy(testData);
+        console.log(`Accuracy van het model: ${accuracy}%`);
+    })
+    .catch(error => {
+        console.error('Fout bij het ophalen of verwerken van de JSON:', error);
+    });
 }
 
 // Call learn function to start learning from JSON data

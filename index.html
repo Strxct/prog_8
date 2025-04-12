@@ -2,42 +2,52 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>prog8</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gesture Music Player</title>
+
+    <!-- TensorFlow & Model Scripts -->
     <script defer src="https://unpkg.com/@tensorflow/tfjs-core@2.1.0/dist/tf-core.js"></script>
     <script defer src="https://unpkg.com/@tensorflow/tfjs-converter@2.1.0/dist/tf-converter.js"></script>
     <script defer src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.1.0/dist/tf-backend-webgl.js"></script>
     <script defer src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
-    <script defer
-        src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@4.20.0/dist/tf-backend-cpu.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@4.20.0/dist/tf-backend-cpu.min.js"></script>
+
+    <!-- Custom Scripts -->
     <script src="js/kNear.js"></script>
     <script defer src="./js/index.js"></script>
-    <script  src="./js/audio.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/audio.js"></script>
 
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-red-900">
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white min-h-screen flex flex-col items-center justify-center p-6">
 
-    <main class=" w-full">
-        <div class="flex justify-center mt-40">
-            <video id="videoElement" style="display: none;">
-            </video>
-            <canvas id="canvasElement"></canvas>
+    <main class="w-full max-w-3xl bg-white/10 rounded-2xl shadow-xl p-8 backdrop-blur-md text-center">
+        <h1 class="text-4xl font-bold mb-6">🎶 Gesture Music Player</h1>
+        <p class="text-lg mb-8">Use hand signs like ✊ 👍 👎 or 🤏 in front of your camera to play songs!</p>
+
+        <!-- Video and Canvas -->
+        <div class="relative w-full flex justify-center items-center mb-6">
+            <video id="videoElement" class="rounded-lg shadow-lg hidden"></video>
+            <canvas id="canvasElement" class="rounded-lg shadow-lg"></canvas>
         </div>
-        <div id="outcomeContainer mt-12">
-            <div class="flex justify-center flex-col gap-y-4 items-center">
-                <button class="hidden" id="dataLog">Show data</button>
-                <p id="predict" class="text-7xl">✊</p>
-                <button class="bg-green-500 px-6 py-4 rounded-lg text-white" id="playButton">Play Song</button>
-            </div>
-            <audio id="audio_fist" src="99-Luftballons.mp3"></audio>
-            <audio id="audio_thumbsup" src="Erika-German-Song-Sound-Effect.mp3"></audio>
-            <audio id="audio_thumbsdown" src="mychemicalromance_welcome-to-the-black-parade.mp3"></audio>
-            <audio id="audio_pinch" src="original_zeowGW1.mp3"></audio>
+
+        <!-- Gesture Output -->
+        <div id="outcomeContainer" class="mt-8 flex flex-col items-center gap-4">
+            <button id="dataLog" class="hidden">Show Data</button>
+            <p id="predict" class="text-8xl transition-all duration-300">✊</p>
+            <button id="playButton" class="mt-4 bg-green-600 hover:bg-green-700 transition px-6 py-3 rounded-full text-white font-semibold shadow-lg">
+                ▶️ Play Song
+            </button>
         </div>
+
+        <!-- Audio Elements -->
+        <audio id="audio_fist" src="99-Luftballons.mp3"></audio>
+        <audio id="audio_thumbsup" src="Erika-German-Song-Sound-Effect.mp3"></audio>
+        <audio id="audio_thumbsdown" src="mychemicalromance_welcome-to-the-black-parade.mp3"></audio>
+        <audio id="audio_pinch" src="original_zeowGW1.mp3"></audio>
     </main>
 
 </body>
